@@ -1,7 +1,24 @@
+# Fetch the default VPC
+data "aws_vpc" "default" {
+  default = true
+}
+
+# Fetch the default public subnet within the default VPC
+data "aws_subnet" "default" {
+  filter {
+    name   = "vpc-id"
+    values = ["vpc-09deb36788d017bad"] # Replace this with the specific VPC ID
+  }
+
+  filter {
+    name   = "subnet-id"
+    values = ["subnet-07a30e82dc2fb3892"] # Replace with the actual subnet name tag
+  }
+}
+
 resource "aws_instance" "jenkins" {
-  ami                    = "ami-0c02fb55956c7d316" # Amazon Linux 2 AMI
+  ami                    = "ami-03abbbfd184c5f585" # Amazon Linux 2 AMI
   instance_type          = var.instance_type
-  subnet_id              = var.public_subnet
   key_name               = var.key_name
   associate_public_ip_address = true
 
@@ -12,15 +29,11 @@ resource "aws_instance" "jenkins" {
     sudo yum install docker git -y
     sudo service docker start
     sudo usermod -a -G docker ec2-user
-    git clone ${var.github_repo_url} /home/ec2-user/jenkins
-    cd /home/ec2-user/jenkins
-    sudo docker-compose up -d
   EOF
 }
 
 resource "aws_eip" "jenkins_ip" {
   instance = aws_instance.jenkins.id
-  public_ip = var.elastic_ip
 }
 
 resource "aws_ebs_volume" "jenkins_data" {
