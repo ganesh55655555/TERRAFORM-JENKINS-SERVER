@@ -1,0 +1,17 @@
+terraform/
+├── main.tf
+├── variables.tf
+├── outputs.tf
+├── modules/
+│   ├── network/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│   ├── ec2/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│   ├── snapshot/
+│       ├── main.tf
+│       ├── variables.tf
+│       ├── outputs.tf
