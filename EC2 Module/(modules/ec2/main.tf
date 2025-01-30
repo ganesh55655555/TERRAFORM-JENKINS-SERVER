@@ -25,10 +25,16 @@ resource "aws_instance" "jenkins" {
   user_data = <<-EOF
     #!/bin/bash
     sudo yum update -y
-    sudo amazon-linux-extras enable docker
-    sudo yum install docker git -y
-    sudo service docker start
-    sudo usermod -a -G docker ec2-user
+    git clone https://github.com/ganesh55655555/DOCKER-COMPOSE.git
+    cd DOCKER-COMPOSE
+    sudo yum install -y yum-utils
+    sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    sudo yum install -y docker-ce docker-ce-cli containerd.io
+    sudo systemctl start docker
+    sudo systemctl enable docker
+    sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+    docker-compose up -d
   EOF
 }
 
