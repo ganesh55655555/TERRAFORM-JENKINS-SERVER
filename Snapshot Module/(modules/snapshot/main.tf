@@ -17,7 +17,7 @@ resource "aws_backup_plan" "daily" {
 resource "aws_backup_selection" "ebs" {
   name     = "daily-ebs-backup"
   iam_role_arn  = aws_iam_role.backup_role.arn
-  plan_id  = aws_backup_plan.daily.id  # Use correct argument name
+  plan_id  = aws_backup_plan.daily.id  
 
   resources = [
  "arn:aws:ec2:${var.region}:${data.aws_caller_identity.current.account_id}:volume/${var.volume_id}"
