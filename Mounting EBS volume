@@ -1,0 +1,25 @@
+aws ec2 describe-volumes --query "Volumes[?State=='available'].VolumeId" --output text
+
+aws ec2 describe-instances --query "Reservations[*].Instances[*].InstanceId" --output text
+
+aws ec2 attach-volume --volume-id <VOLUME_ID> --instance-id <INSTANCE_ID> --device /dev/xvdf
+
+
+lsblk
+
+sudo mkdir /data
+
+sudo mount /dev/xvdf /data
+
+df -h
+
+sudo nano /etc/fstab
+
+/dev/xvdf /data ext4 defaults,nofail 0 2
+
+sudo mount -a
+
+
+
+
+
